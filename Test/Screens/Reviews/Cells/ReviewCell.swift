@@ -6,6 +6,7 @@ struct ReviewCellConfig {
     /// Идентификатор для переиспользования ячейки.
     static let reuseId = String(describing: ReviewCellConfig.self)
 
+    let fullName: NSAttributedString
     /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
     let id = UUID()
     /// Текст отзыва.
@@ -33,6 +34,7 @@ extension ReviewCellConfig: TableCellConfig {
         cell.reviewTextLabel.attributedText = reviewText
         cell.reviewTextLabel.numberOfLines = maxLines
         cell.createdLabel.attributedText = created
+        cell.usernameLabel.attributedText = fullName
         cell.config = self
     }
 
@@ -60,6 +62,7 @@ final class ReviewCell: UITableViewCell {
 
     fileprivate var config: Config?
 
+    fileprivate let usernameLabel = UILabel()
     fileprivate let reviewTextLabel = UILabel()
     fileprivate let createdLabel = UILabel()
     fileprivate let showMoreButton = UIButton()
@@ -77,6 +80,7 @@ final class ReviewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         guard let layout = config?.layout else { return }
+        usernameLabel.frame = layout.usernameLabelFrame
         reviewTextLabel.frame = layout.reviewTextLabelFrame
         createdLabel.frame = layout.createdLabelFrame
         showMoreButton.frame = layout.showMoreButtonFrame
@@ -89,6 +93,7 @@ final class ReviewCell: UITableViewCell {
 private extension ReviewCell {
 
     func setupCell() {
+        setupUsernameLabel()
         setupReviewTextLabel()
         setupCreatedLabel()
         setupShowMoreButton()
@@ -101,6 +106,10 @@ private extension ReviewCell {
 
     func setupCreatedLabel() {
         contentView.addSubview(createdLabel)
+    }
+    
+    func setupUsernameLabel() {
+        contentView.addSubview(usernameLabel)
     }
 
     func setupShowMoreButton() {
@@ -128,6 +137,7 @@ private final class ReviewCellLayout {
 
     // MARK: - Фреймы
 
+    private(set) var usernameLabelFrame = CGRect.zero
     private(set) var reviewTextLabelFrame = CGRect.zero
     private(set) var showMoreButtonFrame = CGRect.zero
     private(set) var createdLabelFrame = CGRect.zero
@@ -161,6 +171,13 @@ private final class ReviewCellLayout {
         let width = maxWidth - insets.left - insets.right
 
         var maxY = insets.top
+        
+        usernameLabelFrame = CGRect(
+            origin: CGPoint(x: insets.left, y: maxY),
+            size: config.fullName.boundingRect(width: width).size
+        )
+        maxY = usernameLabelFrame.maxY + usernameToRatingSpacing
+        
         var showShowMoreButton = false
 
         if !config.reviewText.isEmpty() {

@@ -1,9 +1,10 @@
 /// Модель отзыва.
 struct Review: Decodable {
 
-    /// Текст отзыва.
+    let firstName: String
+    let lastName: String
+    let rating: Int
     let text: String
-    /// Время создания отзыва.
     let created: String
-
+    // TODO: add photo
 }
