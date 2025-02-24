@@ -4,6 +4,7 @@ final class ReviewsView: UIView {
 
     let tableView = UITableView()
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
