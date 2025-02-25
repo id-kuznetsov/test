@@ -5,8 +5,10 @@ struct ReviewCellConfig {
 
     /// Идентификатор для переиспользования ячейки.
     static let reuseId = String(describing: ReviewCellConfig.self)
-
+    /// Полное имя
     let fullName: NSAttributedString
+    /// Рейтинг
+    let ratingImage: UIImage
     /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
     let id = UUID()
     /// Текст отзыва.
@@ -31,10 +33,11 @@ extension ReviewCellConfig: TableCellConfig {
     /// Вызывается из `cellForRowAt:` у `dataSource` таблицы.
     func update(cell: UITableViewCell) {
         guard let cell = cell as? ReviewCell else { return }
+        cell.usernameLabel.attributedText = fullName
+        cell.ratingView.image = ratingImage
         cell.reviewTextLabel.attributedText = reviewText
         cell.reviewTextLabel.numberOfLines = maxLines
         cell.createdLabel.attributedText = created
-        cell.usernameLabel.attributedText = fullName
         cell.config = self
     }
 
@@ -63,6 +66,7 @@ final class ReviewCell: UITableViewCell {
     fileprivate var config: Config?
 
     fileprivate let usernameLabel = UILabel()
+    fileprivate let ratingView = UIImageView()
     fileprivate let reviewTextLabel = UILabel()
     fileprivate let createdLabel = UILabel()
     fileprivate let showMoreButton = UIButton()
@@ -81,12 +85,14 @@ final class ReviewCell: UITableViewCell {
         usernameLabel.text = nil
         reviewTextLabel.text = nil
         createdLabel.text = nil
+        ratingView.image = nil
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         guard let layout = config?.layout else { return }
         usernameLabel.frame = layout.usernameLabelFrame
+        ratingView.frame = layout.ratingFrame
         reviewTextLabel.frame = layout.reviewTextLabelFrame
         createdLabel.frame = layout.createdLabelFrame
         showMoreButton.frame = layout.showMoreButtonFrame
@@ -100,11 +106,21 @@ private extension ReviewCell {
 
     func setupCell() {
         setupUsernameLabel()
+        setupRatingView()
         setupReviewTextLabel()
         setupCreatedLabel()
         setupShowMoreButton()
     }
-
+    
+    func setupUsernameLabel() {
+        contentView.addSubview(usernameLabel)
+    }
+    
+    func setupRatingView() {
+        contentView.addSubview(ratingView)
+        ratingView.contentMode = .scaleAspectFit
+    }
+    
     func setupReviewTextLabel() {
         contentView.addSubview(reviewTextLabel)
         reviewTextLabel.lineBreakMode = .byWordWrapping
@@ -114,10 +130,6 @@ private extension ReviewCell {
         contentView.addSubview(createdLabel)
     }
     
-    func setupUsernameLabel() {
-        contentView.addSubview(usernameLabel)
-    }
-
     func setupShowMoreButton() {
         contentView.addSubview(showMoreButton)
         showMoreButton.contentVerticalAlignment = .fill
@@ -144,6 +156,7 @@ private final class ReviewCellLayout {
     // MARK: - Фреймы
 
     private(set) var usernameLabelFrame = CGRect.zero
+    private(set) var ratingFrame = CGRect.zero
     private(set) var reviewTextLabelFrame = CGRect.zero
     private(set) var showMoreButtonFrame = CGRect.zero
     private(set) var createdLabelFrame = CGRect.zero
@@ -182,7 +195,15 @@ private final class ReviewCellLayout {
             origin: CGPoint(x: insets.left, y: maxY),
             size: config.fullName.boundingRect(width: width).size
         )
+        
         maxY = usernameLabelFrame.maxY + usernameToRatingSpacing
+        
+        ratingFrame = CGRect(
+            origin: CGPoint(x: insets.left, y: maxY),
+            size: config.ratingImage.size
+        )
+        
+        maxY = ratingFrame.maxY + ratingToTextSpacing
         
         var showShowMoreButton = false
 
