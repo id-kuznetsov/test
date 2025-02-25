@@ -83,7 +83,9 @@ private extension ReviewsViewModel {
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
         let ratingImage = ratingRenderer.ratingImage(review.rating)
+        let avatar = UIImage(named: "l5w5aIHioYc")// TODO: get photo from net
         let item = ReviewItem(
+            avatar: avatar,
             fullName: fullName,
             ratingImage: ratingImage,
             reviewText: reviewText,
