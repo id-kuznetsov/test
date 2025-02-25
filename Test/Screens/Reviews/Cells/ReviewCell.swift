@@ -76,6 +76,12 @@ final class ReviewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
     }
+    
+    override func prepareForReuse() {
+        usernameLabel.text = nil
+        reviewTextLabel.text = nil
+        createdLabel.text = nil
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
