@@ -31,6 +31,7 @@
 		5CDC78E72D6F06B000EAA1F0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 5CDC78E52D6F06B000EAA1F0 /* Localizable.stringsdict */; };
 		5CDC78EA2D6F800C00EAA1F0 /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78E92D6F800C00EAA1F0 /* ImageProvider.swift */; };
 		5CDC78EC2D6F97C700EAA1F0 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78EB2D6F97C700EAA1F0 /* Cache.swift */; };
+		5CDC78EE2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		5CDC78E62D6F06B000EAA1F0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		5CDC78E92D6F800C00EAA1F0 /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
 		5CDC78EB2D6F97C700EAA1F0 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPhotosCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				21B82E252D47B0640085DAA2 /* ReviewCell.swift */,
+				5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				21B82E2E2D47B0640085DAA2 /* ReviewCell.swift in Sources */,
 				21ED1F622D69CBCD0012D6F6 /* RootView.swift in Sources */,
 				21667B802D4A25B2009AAA76 /* RatingRenderer.swift in Sources */,
+				5CDC78EE2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift in Sources */,
 				216668712D48E4B2009AAA76 /* NSAttributedString+Ext.swift in Sources */,
 				5CDC78EC2D6F97C700EAA1F0 /* Cache.swift in Sources */,
 				5CDC78442D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift in Sources */,
