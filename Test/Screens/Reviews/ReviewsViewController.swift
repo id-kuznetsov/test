@@ -24,6 +24,7 @@ final class ReviewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewModel()
+        setupRefreshControl()
         viewModel.getReviews()
     }
 
@@ -43,6 +44,17 @@ private extension ReviewsViewController {
     func setupViewModel() {
         viewModel.onStateChange = { [weak self] _ in
             self?.reviewsView.tableView.reloadData()
+            self?.reviewsView.refreshControl.endRefreshing()
+        }
+    }
+    
+    private func setupRefreshControl() {
+        reviewsView.refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    }
+    
+    @objc private func refreshData() {
+        viewModel.refreshReviews { [weak self] in
+            self?.reviewsView.refreshControl.endRefreshing()
         }
     }
 

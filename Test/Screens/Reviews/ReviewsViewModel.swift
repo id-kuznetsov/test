@@ -39,6 +39,14 @@ extension ReviewsViewModel {
         reviewsProvider.getReviews(offset: state.offset, completion: gotReviews)
     }
     
+    func refreshReviews(completion: @escaping () -> Void) {
+        state = State() 
+        getReviews()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            completion()
+        }
+    }
+    
 }
 
 // MARK: - Private

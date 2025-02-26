@@ -96,6 +96,7 @@ final class ReviewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         usernameLabel.text = nil
         reviewTextLabel.text = nil
         createdLabel.text = nil
