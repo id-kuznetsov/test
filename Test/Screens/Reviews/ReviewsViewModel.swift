@@ -2,15 +2,16 @@ import UIKit
 
 /// Класс, описывающий бизнес-логику экрана отзывов.
 final class ReviewsViewModel: NSObject {
-
+    
     /// Замыкание, вызываемое при изменении `state`.
     var onStateChange: ((State) -> Void)?
-
+    
     private var state: State
     private let reviewsProvider: ReviewsProvider
     private let ratingRenderer: RatingRenderer
+    private let imageProvider = ImageProvider.shared
     private let decoder: JSONDecoder
-
+    
     init(
         state: State = State(),
         reviewsProvider: ReviewsProvider = ReviewsProvider(),
@@ -22,28 +23,28 @@ final class ReviewsViewModel: NSObject {
         self.ratingRenderer = ratingRenderer
         self.decoder = decoder
     }
-
+    
 }
 
 // MARK: - Internal
 
 extension ReviewsViewModel {
-
+    
     typealias State = ReviewsViewModelState
-
+    
     /// Метод получения отзывов.
     func getReviews() {
         guard state.shouldLoad else { return }
         state.shouldLoad = false
         reviewsProvider.getReviews(offset: state.offset, completion: gotReviews)
     }
-
+    
 }
 
 // MARK: - Private
 
 private extension ReviewsViewModel {
-
+    
     /// Метод обработки получения отзывов.
     func gotReviews(_ result: ReviewsProvider.GetReviewsResult) {
         do {
@@ -53,14 +54,14 @@ private extension ReviewsViewModel {
             let newReviews = reviews.items.prefix(reviews.count - state.items.count)
             state.items += newReviews.map(makeReviewItem)
             state.offset += newReviews.count
-
+            
             state.shouldLoad = state.offset < reviews.count
         } catch {
             state.shouldLoad = true
         }
         onStateChange?(state)
     }
-
+    
     /// Метод, вызываемый при нажатии на кнопку "Показать полностью...".
     /// Снимает ограничение на количество строк текста отзыва (раскрывает текст).
     func showMoreReview(with id: UUID) {
@@ -72,23 +73,30 @@ private extension ReviewsViewModel {
         state.items[index] = item
         onStateChange?(state)
     }
-
+    
 }
 
 // MARK: - Items
 
 private extension ReviewsViewModel {
-
+    
     typealias ReviewItem = ReviewCellConfig
-
+    
     func makeReviewItem(_ review: Review) -> ReviewItem {
-        let fullName = (review.firstName + " " + review.lastName).attributed(font: .username)
+        let fullName = ("\(review.firstName) \(review.lastName)").attributed(font: .username)
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
         let ratingImage = ratingRenderer.ratingImage(review.rating)
-        let avatar = UIImage(named: "l5w5aIHioYc")// TODO: get photo from net
+        var avatar = UIImage(named: "avatarPlaceholder")
+        if let avatarURL = URL(string: review.avatarUrl) {
+            imageProvider.loadImage(from: avatarURL) { image in
+                avatar = image
+            }
+        }
+
         let item = ReviewItem(
             avatar: avatar,
+            avatarUrl: review.avatarUrl,         // TODO: подумать над передачей
             fullName: fullName,
             ratingImage: ratingImage,
             reviewText: reviewText,
@@ -96,20 +104,20 @@ private extension ReviewsViewModel {
             onTapShowMore: showMoreReview
         )
         return item
+        
     }
-
 }
 
 // MARK: - UITableViewDataSource
 
 extension ReviewsViewModel: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         state.items.count + 1
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         if indexPath.row < state.items.count {
             // Обычная ячейка с отзывом
             let config = state.items[indexPath.row]
@@ -130,13 +138,13 @@ extension ReviewsViewModel: UITableViewDataSource {
             return cell
         }
     }
-
+    
 }
 
 // MARK: - UITableViewDelegate
 
 extension ReviewsViewModel: UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row < state.items.count {
             return state.items[indexPath.row].height(with: tableView.bounds.size)
@@ -144,7 +152,7 @@ extension ReviewsViewModel: UITableViewDelegate {
             return UITableView.automaticDimension
         }
     }
-
+    
     /// Метод дозапрашивает отзывы, если до конца списка отзывов осталось два с половиной экрана по высоте.
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
@@ -155,7 +163,7 @@ extension ReviewsViewModel: UITableViewDelegate {
             getReviews()
         }
     }
-
+    
     private func shouldLoadNextPage(
         scrollView: UIScrollView,
         targetOffsetY: CGFloat,
@@ -167,5 +175,5 @@ extension ReviewsViewModel: UITableViewDelegate {
         let remainingDistance = contentHeight - viewHeight - targetOffsetY
         return remainingDistance <= triggerDistance
     }
-
+    
 }

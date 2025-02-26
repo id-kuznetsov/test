@@ -7,6 +7,7 @@ struct ReviewCellConfig {
     static let reuseId = String(describing: ReviewCellConfig.self)
     /// Аватар
     let avatar: UIImage?
+    let avatarUrl: String
     /// Полное имя
     let fullName: NSAttributedString
     /// Рейтинг
@@ -36,6 +37,15 @@ extension ReviewCellConfig: TableCellConfig {
     func update(cell: UITableViewCell) {
         guard let cell = cell as? ReviewCell else { return }
         cell.avatarView.image = avatar
+        
+        if let avatarUrl = URL(string: avatarUrl) {
+            ImageProvider.shared.loadImage(from: avatarUrl) { image in
+                DispatchQueue.main.async {
+                    cell.avatarView.image = image ?? UIImage(named: "avatarPlaceholder")
+                }
+            }
+        }
+        
         cell.usernameLabel.attributedText = fullName
         cell.ratingView.image = ratingImage
         cell.reviewTextLabel.attributedText = reviewText

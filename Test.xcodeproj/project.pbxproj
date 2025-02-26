@@ -29,6 +29,8 @@
 		21ED1F652D69D0340012D6F6 /* ReviewsScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ED1F642D69D0340012D6F6 /* ReviewsScreenFactory.swift */; };
 		5CDC78442D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78432D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift */; };
 		5CDC78E72D6F06B000EAA1F0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 5CDC78E52D6F06B000EAA1F0 /* Localizable.stringsdict */; };
+		5CDC78EA2D6F800C00EAA1F0 /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78E92D6F800C00EAA1F0 /* ImageProvider.swift */; };
+		5CDC78EC2D6F97C700EAA1F0 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78EB2D6F97C700EAA1F0 /* Cache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +57,8 @@
 		21ED1F642D69D0340012D6F6 /* ReviewsScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsScreenFactory.swift; sourceTree = "<group>"; };
 		5CDC78432D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeCaseJSONDecoder.swift; sourceTree = "<group>"; };
 		5CDC78E62D6F06B000EAA1F0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		5CDC78E92D6F800C00EAA1F0 /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
+		5CDC78EB2D6F97C700EAA1F0 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +144,7 @@
 		21B82E2C2D47B0640085DAA2 /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				5CDC78E82D6F7FFA00EAA1F0 /* Services */,
 				5CDC78422D6D048D00EAA1F0 /* Helpers */,
 				21B82E2B2D47B0640085DAA2 /* AppDelegate.swift */,
 				21B82E2A2D47B0640085DAA2 /* Screens */,
@@ -199,6 +204,15 @@
 				5CDC78432D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5CDC78E82D6F7FFA00EAA1F0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5CDC78E92D6F800C00EAA1F0 /* ImageProvider.swift */,
+				5CDC78EB2D6F97C700EAA1F0 /* Cache.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,12 +289,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CDC78EA2D6F800C00EAA1F0 /* ImageProvider.swift in Sources */,
 				21B82E392D47B1320085DAA2 /* Review.swift in Sources */,
 				21B8416D2D47C0E20085DAA2 /* ReviewsViewModelState.swift in Sources */,
 				21B82E2E2D47B0640085DAA2 /* ReviewCell.swift in Sources */,
 				21ED1F622D69CBCD0012D6F6 /* RootView.swift in Sources */,
 				21667B802D4A25B2009AAA76 /* RatingRenderer.swift in Sources */,
 				216668712D48E4B2009AAA76 /* NSAttributedString+Ext.swift in Sources */,
+				5CDC78EC2D6F97C700EAA1F0 /* Cache.swift in Sources */,
 				5CDC78442D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift in Sources */,
 				21B82E362D47B0D80085DAA2 /* ReviewsProvider.swift in Sources */,
 				21ED1F602D69C85E0012D6F6 /* RootViewController.swift in Sources */,
