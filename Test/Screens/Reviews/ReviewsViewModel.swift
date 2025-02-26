@@ -49,6 +49,8 @@ private extension ReviewsViewModel {
         do {
             let data = try result.get()
             let reviews = try decoder.decode(Reviews.self, from: data)
+            print(reviews.count)
+            print(reviews.items.count)
             state.items += reviews.items.map(makeReviewItem)
             state.offset += state.limit
             state.shouldLoad = state.offset < reviews.count
@@ -102,14 +104,27 @@ private extension ReviewsViewModel {
 extension ReviewsViewModel: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        state.items.count
+        state.items.count + 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let config = state.items[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: config.reuseId, for: indexPath)
-        config.update(cell: cell)
-        return cell
+
+        if indexPath.row < state.items.count {
+            // Обычная ячейка с отзывом
+            let config = state.items[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: config.reuseId, for: indexPath)
+            config.update(cell: cell)
+            return cell
+        } else {
+            // Последняя ячейка с количеством отзывов
+            let cell = UITableViewCell()
+            cell.textLabel?.text = "\(state.items.count) отзывов" // TODO: добавить plurals
+            // TODO: количество отзывов не совпадает с count в json
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            cell.textLabel?.textColor = .gray
+            return cell
+        }
     }
 
 }
@@ -119,7 +134,11 @@ extension ReviewsViewModel: UITableViewDataSource {
 extension ReviewsViewModel: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        state.items[indexPath.row].height(with: tableView.bounds.size)
+        if indexPath.row < state.items.count {
+            return state.items[indexPath.row].height(with: tableView.bounds.size)
+        } else {
+            return UITableView.automaticDimension
+        }
     }
 
     /// Метод дозапрашивает отзывы, если до конца списка отзывов осталось два с половиной экрана по высоте.
