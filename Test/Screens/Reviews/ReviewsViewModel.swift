@@ -47,10 +47,13 @@ private extension ReviewsViewModel {
     /// Метод обработки получения отзывов.
     func gotReviews(_ result: ReviewsProvider.GetReviewsResult) {
         do {
+            
             let data = try result.get()
             let reviews = try decoder.decode(Reviews.self, from: data)
-            state.items += reviews.items.map(makeReviewItem)
-            state.offset += state.limit
+            let newReviews = reviews.items.prefix(reviews.count - state.items.count)
+            state.items += newReviews.map(makeReviewItem)
+            state.offset += newReviews.count
+
             state.shouldLoad = state.offset < reviews.count
         } catch {
             state.shouldLoad = true
@@ -82,8 +85,12 @@ private extension ReviewsViewModel {
         let fullName = (review.firstName + " " + review.lastName).attributed(font: .username)
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
+        let ratingImage = ratingRenderer.ratingImage(review.rating)
+        let avatar = UIImage(named: "l5w5aIHioYc")// TODO: get photo from net
         let item = ReviewItem(
+            avatar: avatar,
             fullName: fullName,
+            ratingImage: ratingImage,
             reviewText: reviewText,
             created: created,
             onTapShowMore: showMoreReview
@@ -98,14 +105,30 @@ private extension ReviewsViewModel {
 extension ReviewsViewModel: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        state.items.count
+        state.items.count + 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let config = state.items[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: config.reuseId, for: indexPath)
-        config.update(cell: cell)
-        return cell
+
+        if indexPath.row < state.items.count {
+            // Обычная ячейка с отзывом
+            let config = state.items[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: config.reuseId, for: indexPath)
+            config.update(cell: cell)
+            return cell
+        } else {
+            // Последняя ячейка с количеством отзывов
+            let cell = UITableViewCell()
+            let locolisedString = String.localizedStringWithFormat(
+                NSLocalizedString("%d reviews", comment: "Количество отзывов"),
+                state.items.count
+            )
+            cell.textLabel?.text = locolisedString // TODO: количество отзывов не совпадает с count в json
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            cell.textLabel?.textColor = .gray
+            return cell
+        }
     }
 
 }
@@ -115,7 +138,11 @@ extension ReviewsViewModel: UITableViewDataSource {
 extension ReviewsViewModel: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        state.items[indexPath.row].height(with: tableView.bounds.size)
+        if indexPath.row < state.items.count {
+            return state.items[indexPath.row].height(with: tableView.bounds.size)
+        } else {
+            return UITableView.automaticDimension
+        }
     }
 
     /// Метод дозапрашивает отзывы, если до конца списка отзывов осталось два с половиной экрана по высоте.

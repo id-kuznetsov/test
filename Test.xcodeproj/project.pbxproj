@@ -28,6 +28,7 @@
 		21ED1F622D69CBCD0012D6F6 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ED1F612D69CBCD0012D6F6 /* RootView.swift */; };
 		21ED1F652D69D0340012D6F6 /* ReviewsScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ED1F642D69D0340012D6F6 /* ReviewsScreenFactory.swift */; };
 		5CDC78442D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78432D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift */; };
+		5CDC78E72D6F06B000EAA1F0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 5CDC78E52D6F06B000EAA1F0 /* Localizable.stringsdict */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		21ED1F612D69CBCD0012D6F6 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		21ED1F642D69D0340012D6F6 /* ReviewsScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsScreenFactory.swift; sourceTree = "<group>"; };
 		5CDC78432D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeCaseJSONDecoder.swift; sourceTree = "<group>"; };
+		5CDC78E62D6F06B000EAA1F0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			children = (
 				21B841692D47BE780085DAA2 /* Responses */,
 				21B82E232D47B0640085DAA2 /* Assets.xcassets */,
+				5CDC78E52D6F06B000EAA1F0 /* Localizable.stringsdict */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			files = (
 				21B82E3C2D47B2230085DAA2 /* getReviews.response.json in Resources */,
 				21B82E322D47B0640085DAA2 /* Assets.xcassets in Resources */,
+				5CDC78E72D6F06B000EAA1F0 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +298,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5CDC78E52D6F06B000EAA1F0 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5CDC78E62D6F06B000EAA1F0 /* ru */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		21B82E0D2D4792310085DAA2 /* Debug */ = {

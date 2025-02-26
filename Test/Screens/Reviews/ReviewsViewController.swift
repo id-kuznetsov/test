@@ -18,6 +18,7 @@ final class ReviewsViewController: UIViewController {
     override func loadView() {
         view = reviewsView
         title = "Отзывы"
+        navigationItem.leftBarButtonItem = UIBarButtonItem()
     }
 
     override func viewDidLoad() {
