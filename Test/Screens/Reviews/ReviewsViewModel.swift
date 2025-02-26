@@ -49,8 +49,6 @@ private extension ReviewsViewModel {
         do {
             let data = try result.get()
             let reviews = try decoder.decode(Reviews.self, from: data)
-            print(reviews.count)
-            print(reviews.items.count)
             state.items += reviews.items.map(makeReviewItem)
             state.offset += state.limit
             state.shouldLoad = state.offset < reviews.count
@@ -118,8 +116,11 @@ extension ReviewsViewModel: UITableViewDataSource {
         } else {
             // Последняя ячейка с количеством отзывов
             let cell = UITableViewCell()
-            cell.textLabel?.text = "\(state.items.count) отзывов" // TODO: добавить plurals
-            // TODO: количество отзывов не совпадает с count в json
+            let locolisedString = String.localizedStringWithFormat(
+                NSLocalizedString("%d reviews", comment: "Количество отзывов"),
+                state.items.count
+            )
+            cell.textLabel?.text = locolisedString // TODO: количество отзывов не совпадает с count в json
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
             cell.textLabel?.textColor = .gray
