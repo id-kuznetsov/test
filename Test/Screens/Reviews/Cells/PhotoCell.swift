@@ -47,7 +47,7 @@ final class PhotoCell: UICollectionViewCell {
     
     func configureCell(photoUrl: String) {
         if let photoUrl = URL(string: photoUrl) {
-            imageProvider.loadImage(from: photoUrl) { [weak self] image in
+            imageProvider.loadImage(from: photoUrl, targetSize: CGSize(width: 55.0, height: 66.0)) { [weak self] image in
                 self?.photoImageView.image = image
             }
         }

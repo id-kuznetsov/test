@@ -10,42 +10,59 @@ import UIKit
 final class ImageProvider {
     
     static let shared = ImageProvider()
-    
+
     private let cache = Cache<URL, UIImage>(entryLifetime: 600)
-    private let queue = DispatchQueue(label: "ImageProviderQueue")
+    private let queue = DispatchQueue(label: "ImageProviderQueue", attributes: .concurrent)
     
     private init() {}
-    
-    func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+
+    func loadImage(from url: URL, targetSize: CGSize, completion: @escaping (UIImage?) -> Void) {
         if let cachedImage = cache.value(forKey: url) {
             completion(cachedImage)
             return
         }
-        
+
         queue.async { [weak self] in
             guard let self else { return }
-            
+
             let imageTask = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-                guard let self, let data, error == nil, let image = UIImage(data: data) else {
+                guard let self, let data, error == nil,
+                      let downsampledImage = self.downsample(data: data, to: targetSize) else {
                     DispatchQueue.main.async { completion(nil) }
                     return
                 }
-                
-                if let compressedData = image.jpegData(compressionQuality: 0.1),
-                   let compressedImage = UIImage(data: compressedData) {
-                    self.cache.insert(compressedImage, forKey: url)
-                    
-                    DispatchQueue.main.async {
-                        completion(compressedImage)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        completion(image)
-                    }
+
+                self.cache.insert(downsampledImage, forKey: url)
+
+                DispatchQueue.main.async {
+                    completion(downsampledImage)
                 }
             }
-            
+
             imageTask.resume()
         }
     }
+
+    private func downsample(data: Data, to pointSize: CGSize, scale: CGFloat = UIScreen.main.scale) -> UIImage? {
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOptions) else {
+            return nil
+        }
+
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+
+        let downsampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
+        ] as CFDictionary
+
+        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            return nil
+        }
+
+        return UIImage(cgImage: downsampledImage)
+    }
 }
+

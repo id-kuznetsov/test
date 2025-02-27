@@ -40,7 +40,7 @@ extension ReviewsViewModel {
     }
     
     func refreshReviews(completion: @escaping () -> Void) {
-        state = State() 
+        state = State()
         getReviews()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             completion()
@@ -61,7 +61,7 @@ private extension ReviewsViewModel {
                 let reviews = try self.decoder.decode(Reviews.self, from: data)
                 let newReviews = reviews.items.prefix(reviews.count - self.state.items.count)
                 let mappedReviews = newReviews.map(self.makeReviewItem)
-
+                
                 DispatchQueue.main.async {
                     self.state.items.append(contentsOf: mappedReviews)
                     self.state.offset += newReviews.count
@@ -101,7 +101,7 @@ private extension ReviewsViewModel {
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
         let ratingImage = ratingRenderer.ratingImage(review.rating)
-
+        
         let item = ReviewItem(
             avatarUrl: review.avatarUrl,
             fullName: fullName,
@@ -134,7 +134,7 @@ extension ReviewsViewModel: UITableViewDataSource {
             return cell
         } else {
             // Последняя ячейка с количеством отзывов
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LastCell", for: indexPath) 
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LastCell", for: indexPath)
             let locolisedString = String.localizedStringWithFormat(
                 NSLocalizedString("%d reviews", comment: "Количество отзывов"),
                 state.items.count

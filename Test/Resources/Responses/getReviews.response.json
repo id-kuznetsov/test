@@ -5,7 +5,7 @@
             "first_name": "Иван",
             "last_name": "Петров",
             "avatar_url": "https://randomuser.me/api/portraits/lego/0.jpg",
-            "photos_urls": ["https://randomwordgenerator.com/img/picture-generator/54e9d74a4d53ac14f1dc8460962e33791c3ad6e04e507749772f78d49449c1_640.jpg", "https://images.unsplash.com/photo-1740525009604-cf420e1399e6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+            "photos_urls": ["https://randomwordgenerator.com/img/picture-generator/54e9d74a4d53ac14f1dc8460962e33791c3ad6e04e507749772f78d49449c1_640.jpg", "https://images.unsplash.com/photo-1536520807309-1f7bae9f8be5?q=80&w=3270&auto=format&fit=crop"],
             "rating": 5,
             "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
             "created": "1 час назад"

@@ -45,11 +45,12 @@ private extension ReviewsViewController {
     func setupViewModel() {
         viewModel.onStateChange = { [weak self] newState in
             guard let self else { return }
-            self.reviewsView.stopLoading()
+            
             let oldCount = self.reviewsView.tableView.numberOfRows(inSection: 0) - 1
             let newCount = newState.items.count
             
             if oldCount < newCount {
+                self.reviewsView.stopLoading()
                 self.reviewsView.updateTableViewAnimated(from: oldCount, to: newCount)
             } else {
                 self.reviewsView.tableView.reloadData()
