@@ -10,8 +10,9 @@ import UIKit
 final class ImageProvider {
     
     static let shared = ImageProvider()
-
+    
     private let cache = Cache<URL, UIImage>(entryLifetime: 600)
+    private let queue = DispatchQueue(label: "ImageProviderQueue")
     
     private init() {}
     
@@ -20,18 +21,31 @@ final class ImageProvider {
             completion(cachedImage)
             return
         }
-
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            guard let self, let data, error == nil, let image = UIImage(data: data) else {
-                DispatchQueue.main.async { completion(nil) }
-                return
-            }
-
-            self.cache.insert(image, forKey: url)
+        
+        queue.async { [weak self] in
+            guard let self else { return }
             
-            DispatchQueue.main.async {
-                completion(image)
+            let imageTask = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+                guard let self, let data, error == nil, let image = UIImage(data: data) else {
+                    DispatchQueue.main.async { completion(nil) }
+                    return
+                }
+                
+                if let compressedData = image.jpegData(compressionQuality: 0.1),
+                   let compressedImage = UIImage(data: compressedData) {
+                    self.cache.insert(compressedImage, forKey: url)
+                    
+                    DispatchQueue.main.async {
+                        completion(compressedImage)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        completion(image)
+                    }
+                }
             }
-        }.resume()
+            
+            imageTask.resume()
+        }
     }
 }

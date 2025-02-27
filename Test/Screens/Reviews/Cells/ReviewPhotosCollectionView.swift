@@ -40,7 +40,6 @@ final class ReviewPhotosCollectionView: UICollectionView {
         photoUrls = urls
         reloadData()
     }
-
 }
 
 // MARK: - Extensions
@@ -61,7 +60,6 @@ extension ReviewPhotosCollectionView: UICollectionViewDataSource, UICollectionVi
             return cell
         }
         cell.configureCell(photoUrl: photoUrls[indexPath.item])
-        // TODO: метод настройки ячейки
         
         return cell
     }

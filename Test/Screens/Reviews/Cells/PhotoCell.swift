@@ -15,6 +15,7 @@ final class PhotoCell: UICollectionViewCell {
     
     // MARK: - Private Properties
     
+    private let imageProvider = ImageProvider.shared
     private lazy var photoImageView: UIImageView = {
         let photoImageView = UIImageView()
         photoImageView.layer.cornerRadius = 8
@@ -42,27 +43,15 @@ final class PhotoCell: UICollectionViewCell {
         photoImageView.image = nil
     }
     
-    // MARK: - Lifecycle
-    
-    
-    
-    // MARK: - Action
-    
-    
-    
-    
     // MARK: - Public Methods
     
     func configureCell(photoUrl: String) {
         if let photoUrl = URL(string: photoUrl) {
-            ImageProvider.shared.loadImage(from: photoUrl) { image in
-                DispatchQueue.main.async { [weak self] in
-                    self?.photoImageView.image = image
-                }
+            imageProvider.loadImage(from: photoUrl) { [weak self] image in
+                self?.photoImageView.image = image
             }
         }
     }
-    
     
     // MARK: - Private Methods
     private func setCellUI() {

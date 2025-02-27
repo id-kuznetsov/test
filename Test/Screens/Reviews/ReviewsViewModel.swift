@@ -55,19 +55,26 @@ private extension ReviewsViewModel {
     
     /// Метод обработки получения отзывов.
     func gotReviews(_ result: ReviewsProvider.GetReviewsResult) {
-        do {
-            
-            let data = try result.get()
-            let reviews = try decoder.decode(Reviews.self, from: data)
-            let newReviews = reviews.items.prefix(reviews.count - state.items.count)
-            state.items += newReviews.map(makeReviewItem)
-            state.offset += newReviews.count
-            
-            state.shouldLoad = state.offset < reviews.count
-        } catch {
-            state.shouldLoad = true
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let data = try result.get()
+                let reviews = try self.decoder.decode(Reviews.self, from: data)
+                let newReviews = reviews.items.prefix(reviews.count - self.state.items.count)
+                let mappedReviews = newReviews.map(self.makeReviewItem)
+
+                DispatchQueue.main.async {
+                    self.state.items.append(contentsOf: mappedReviews)
+                    self.state.offset += newReviews.count
+                    self.state.shouldLoad = self.state.offset < reviews.count
+                    self.onStateChange?(self.state)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.state.shouldLoad = true
+                    self.onStateChange?(self.state)
+                }
+            }
         }
-        onStateChange?(state)
     }
     
     /// Метод, вызываемый при нажатии на кнопку "Показать полностью...".
@@ -81,7 +88,6 @@ private extension ReviewsViewModel {
         state.items[index] = item
         onStateChange?(state)
     }
-    
 }
 
 // MARK: - Items
@@ -97,7 +103,7 @@ private extension ReviewsViewModel {
         let ratingImage = ratingRenderer.ratingImage(review.rating)
 
         let item = ReviewItem(
-            avatarUrl: review.avatarUrl,         // TODO: подумать над передачей
+            avatarUrl: review.avatarUrl,
             fullName: fullName,
             ratingImage: ratingImage,
             photoUrls: review.photosUrls,

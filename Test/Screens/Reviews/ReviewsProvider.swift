@@ -4,6 +4,8 @@ import Foundation
 final class ReviewsProvider {
     
     private let bundle: Bundle
+    private let queue = DispatchQueue(label: "ReviewsProviderQueue")
+    private let mainQueue = DispatchQueue.main
     
     init(bundle: Bundle = .main) {
         self.bundle = bundle
@@ -29,16 +31,16 @@ extension ReviewsProvider {
             return completion(.failure(.badURL))
         }
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        queue.async { [weak self] in
             usleep(.random(in: 100_000...1_000_000)) // Симуляция сети
             
             do {
                 let data = try Data(contentsOf: url)
-                DispatchQueue.main.async {
+                self?.mainQueue.async {
                     completion(.success(data))
                 }
             } catch {
-                DispatchQueue.main.async {
+                self?.mainQueue.async {
                     completion(.failure(.badData(error)))
                 }
             }
