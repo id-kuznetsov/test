@@ -37,6 +37,7 @@ private extension ReviewsView {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCellConfig.reuseId)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LastCell")
         tableView.refreshControl = refreshControl
     }
 

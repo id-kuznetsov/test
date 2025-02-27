@@ -52,7 +52,8 @@ private extension ReviewsViewController {
         reviewsView.refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
-    @objc private func refreshData() {
+    @objc
+    private func refreshData() {
         viewModel.refreshReviews { [weak self] in
             self?.reviewsView.refreshControl.endRefreshing()
         }

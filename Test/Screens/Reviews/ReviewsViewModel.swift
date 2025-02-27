@@ -134,7 +134,7 @@ extension ReviewsViewModel: UITableViewDataSource {
             return cell
         } else {
             // Последняя ячейка с количеством отзывов
-            let cell = UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LastCell", for: indexPath) 
             let locolisedString = String.localizedStringWithFormat(
                 NSLocalizedString("%d reviews", comment: "Количество отзывов"),
                 state.items.count
