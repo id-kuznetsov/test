@@ -95,18 +95,12 @@ private extension ReviewsViewModel {
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
         let ratingImage = ratingRenderer.ratingImage(review.rating)
-        var avatar = UIImage(named: "avatarPlaceholder")
-        if let avatarURL = URL(string: review.avatarUrl) {
-            imageProvider.loadImage(from: avatarURL) { image in
-                avatar = image
-            }
-        }
 
         let item = ReviewItem(
-            avatar: avatar,
             avatarUrl: review.avatarUrl,         // TODO: подумать над передачей
             fullName: fullName,
             ratingImage: ratingImage,
+            photoUrls: review.photosUrls,
             reviewText: reviewText,
             created: created,
             onTapShowMore: showMoreReview

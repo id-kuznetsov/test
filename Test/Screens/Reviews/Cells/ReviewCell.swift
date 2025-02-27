@@ -5,13 +5,14 @@ struct ReviewCellConfig {
 
     /// Идентификатор для переиспользования ячейки.
     static let reuseId = String(describing: ReviewCellConfig.self)
-    /// Аватар
-    let avatar: UIImage?
+    /// Ссылка на аватар.
     let avatarUrl: String
     /// Полное имя
     let fullName: NSAttributedString
     /// Рейтинг
     let ratingImage: UIImage
+    /// Ссылки на фото к отзыву
+    let photoUrls: [String]?
     /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
     let id = UUID()
     /// Текст отзыва.
@@ -36,7 +37,6 @@ extension ReviewCellConfig: TableCellConfig {
     /// Вызывается из `cellForRowAt:` у `dataSource` таблицы.
     func update(cell: UITableViewCell) {
         guard let cell = cell as? ReviewCell else { return }
-        cell.avatarView.image = avatar
         
         if let avatarUrl = URL(string: avatarUrl) {
             ImageProvider.shared.loadImage(from: avatarUrl) { image in
@@ -45,9 +45,9 @@ extension ReviewCellConfig: TableCellConfig {
                 }
             }
         }
-        
         cell.usernameLabel.attributedText = fullName
         cell.ratingView.image = ratingImage
+        cell.photosCollectionView.setPhotos(photoUrls)
         cell.reviewTextLabel.attributedText = reviewText
         cell.reviewTextLabel.numberOfLines = maxLines
         cell.createdLabel.attributedText = created
@@ -81,6 +81,7 @@ final class ReviewCell: UITableViewCell {
     fileprivate let avatarView = UIImageView()
     fileprivate let usernameLabel = UILabel()
     fileprivate let ratingView = UIImageView()
+    fileprivate let photosCollectionView = ReviewPhotosCollectionView()
     fileprivate let reviewTextLabel = UILabel()
     fileprivate let createdLabel = UILabel()
     fileprivate let showMoreButton = UIButton()
@@ -110,6 +111,7 @@ final class ReviewCell: UITableViewCell {
         avatarView.frame = layout.avatarFrame
         usernameLabel.frame = layout.usernameLabelFrame
         ratingView.frame = layout.ratingFrame
+        photosCollectionView.frame = layout.photosCollectionViewFrame
         reviewTextLabel.frame = layout.reviewTextLabelFrame
         createdLabel.frame = layout.createdLabelFrame
         showMoreButton.frame = layout.showMoreButtonFrame
@@ -126,6 +128,7 @@ private extension ReviewCell {
         setupUsernameLabel()
         setupRatingView()
         setupReviewTextLabel()
+        setupCollectionView()
         setupCreatedLabel()
         setupShowMoreButton()
     }
@@ -144,6 +147,10 @@ private extension ReviewCell {
     func setupRatingView() {
         contentView.addSubview(ratingView)
         ratingView.contentMode = .scaleAspectFit
+    }
+    
+    func setupCollectionView() {
+        contentView.addSubview(photosCollectionView)
     }
     
     func setupReviewTextLabel() {
@@ -191,6 +198,7 @@ private final class ReviewCellLayout {
     private(set) var avatarFrame = CGRect.zero
     private(set) var usernameLabelFrame = CGRect.zero
     private(set) var ratingFrame = CGRect.zero
+    private(set) var photosCollectionViewFrame = CGRect.zero
     private(set) var reviewTextLabelFrame = CGRect.zero
     private(set) var showMoreButtonFrame = CGRect.zero
     private(set) var createdLabelFrame = CGRect.zero
@@ -245,6 +253,20 @@ private final class ReviewCellLayout {
         )
         
         maxY = ratingFrame.maxY + ratingToTextSpacing
+        
+        if let photoUrls = config.photoUrls, !photoUrls.isEmpty {
+            let collectionWidth = width - maxX - insets.right
+            let collectionHeight = Self.photoSize.height
+            photosCollectionViewFrame = CGRect(
+                x: maxX,
+                y: maxY,
+                width: collectionWidth,
+                height: collectionHeight
+            )
+            maxY = photosCollectionViewFrame.maxY + photosToTextSpacing
+        } else {
+            photosCollectionViewFrame = .zero
+        }
         
         var showShowMoreButton = false
 

@@ -5,6 +5,7 @@
             "first_name": "Иван",
             "last_name": "Петров",
             "avatar_url": "https://randomuser.me/api/portraits/lego/0.jpg",
+            "photos_urls": ["https://randomwordgenerator.com/img/picture-generator/54e9d74a4d53ac14f1dc8460962e33791c3ad6e04e507749772f78d49449c1_640.jpg", "https://images.unsplash.com/photo-1740525009604-cf420e1399e6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
             "rating": 5,
             "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
             "created": "1 час назад"
@@ -29,6 +30,8 @@
             "first_name": "Илья",
             "last_name": "Петров",
             "avatar_url": "https://randomuser.me/api/portraits/lego/3.jpg",
+            "photos_urls": [ "https://images.unsplash.com/photo-1740525035325-bb791a80d627?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
             "rating": 2,
             "text": "Понравилось отношение - несмотря на то, что заказ был выполнен не идеально, продавец был очень любезен и шёл... Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
             "created": "минуту назад"
@@ -63,6 +66,12 @@
             "first_name": "Иван",
             "last_name": "Петров",
             "avatar_url": "https://randomuser.me/api/portraits/lego/0.jpg",
+            "photos_urls": [
+                "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=3087&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1615290642882-6b9501729a27?q=80&w=3044&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1612821745127-53855be9cbd1?q=80&w=3087&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1611510338559-2f463335092c?w=900&auto=format&fit=crop"
+            ],
             "rating": 5,
             "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
             "created": "1 час назад"

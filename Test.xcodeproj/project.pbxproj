@@ -32,6 +32,7 @@
 		5CDC78EA2D6F800C00EAA1F0 /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78E92D6F800C00EAA1F0 /* ImageProvider.swift */; };
 		5CDC78EC2D6F97C700EAA1F0 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78EB2D6F97C700EAA1F0 /* Cache.swift */; };
 		5CDC78EE2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */; };
+		5CDC79272D70800900EAA1F0 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC79262D70800900EAA1F0 /* PhotoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		5CDC78E92D6F800C00EAA1F0 /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
 		5CDC78EB2D6F97C700EAA1F0 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPhotosCollectionView.swift; sourceTree = "<group>"; };
+		5CDC79262D70800900EAA1F0 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				21B82E252D47B0640085DAA2 /* ReviewCell.swift */,
 				5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */,
+				5CDC79262D70800900EAA1F0 /* PhotoCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				5CDC78442D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift in Sources */,
 				21B82E362D47B0D80085DAA2 /* ReviewsProvider.swift in Sources */,
 				21ED1F602D69C85E0012D6F6 /* RootViewController.swift in Sources */,
+				5CDC79272D70800900EAA1F0 /* PhotoCell.swift in Sources */,
 				21B82E342D47B0AA0085DAA2 /* ReviewsViewModel.swift in Sources */,
 				21B8416B2D47BFA10085DAA2 /* Reviews.swift in Sources */,
 				21B82E302D47B0640085DAA2 /* ReviewsViewController.swift in Sources */,
