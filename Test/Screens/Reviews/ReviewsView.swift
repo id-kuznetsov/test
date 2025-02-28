@@ -5,12 +5,22 @@ final class ReviewsView: UIView {
     let tableView = UITableView()
     let refreshControl = UIRefreshControl()
     
-    private let activityIndicator: UIActivityIndicatorView = {
+    lazy var reviewsFooter = ReviewsFooterView(
+        frame: CGRect(
+            x: 0,
+            y: 0,
+            width: tableView.frame.width,
+            height: 30
+        )
+    )
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
     }()
+    
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
@@ -36,13 +46,11 @@ final class ReviewsView: UIView {
     }
     
     func startLoading() {
-        print("StartLoading called")
         activityIndicator.startAnimating()
         tableView.isHidden = true
     }
 
     func stopLoading() {
-        print("stopLoading called")
         activityIndicator.stopAnimating()
         tableView.isHidden = false
     }
@@ -64,8 +72,8 @@ private extension ReviewsView {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCellConfig.reuseId)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LastCell")
         tableView.refreshControl = refreshControl
+        tableView.tableFooterView = reviewsFooter
     }
     
     func setupActivityIndicator() {
@@ -76,5 +84,4 @@ private extension ReviewsView {
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
-
 }

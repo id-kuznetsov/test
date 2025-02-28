@@ -46,7 +46,7 @@ private extension ReviewsViewController {
         viewModel.onStateChange = { [weak self] newState in
             guard let self else { return }
             
-            let oldCount = self.reviewsView.tableView.numberOfRows(inSection: 0) - 1
+            let oldCount = self.reviewsView.tableView.numberOfRows(inSection: 0) 
             let newCount = newState.items.count
             
             if oldCount < newCount {
@@ -56,6 +56,7 @@ private extension ReviewsViewController {
                 self.reviewsView.tableView.reloadData()
             }
             self.reviewsView.refreshControl.endRefreshing()
+            self.reviewsView.reviewsFooter.updateText(reviewsCount: newState.items.count)
         }
     }
     
