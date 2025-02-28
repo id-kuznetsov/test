@@ -54,26 +54,20 @@ extension ReviewsViewModel {
 private extension ReviewsViewModel {
     
     /// Метод обработки получения отзывов.
-    func gotReviews(_ result: ReviewsProvider.GetReviewsResult) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                let data = try result.get()
-                let reviews = try self.decoder.decode(Reviews.self, from: data)
-                let newReviews = reviews.items.prefix(reviews.count - self.state.items.count)
-                let mappedReviews = newReviews.map(self.makeReviewItem)
-                
-                DispatchQueue.main.async {
-                    self.state.items.append(contentsOf: mappedReviews)
-                    self.state.offset += newReviews.count
-                    self.state.shouldLoad = self.state.offset < reviews.count
-                    self.onStateChange?(self.state)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.state.shouldLoad = true
-                    self.onStateChange?(self.state)
-                }
-            }
+    private func gotReviews(_ result: ReviewsProvider.GetReviewsResult) {
+        do {
+            let data = try result.get()
+            let reviews = try self.decoder.decode(Reviews.self, from: data)
+            let newReviews = reviews.items.prefix(reviews.count - self.state.items.count)
+            let mappedReviews = newReviews.map(self.makeReviewItem)
+            
+            self.state.items.append(contentsOf: mappedReviews)
+            self.state.offset += newReviews.count
+            self.state.shouldLoad = self.state.offset < reviews.count
+            self.onStateChange?(self.state)
+        } catch {
+            self.state.shouldLoad = true
+            self.onStateChange?(self.state)
         }
     }
     
@@ -135,11 +129,11 @@ extension ReviewsViewModel: UITableViewDataSource {
         } else {
             // Последняя ячейка с количеством отзывов
             let cell = tableView.dequeueReusableCell(withIdentifier: "LastCell", for: indexPath)
-            let locolisedString = String.localizedStringWithFormat(
+            let reviewsCountString = String.localizedStringWithFormat(
                 NSLocalizedString("%d reviews", comment: "Количество отзывов"),
                 state.items.count
             )
-            cell.textLabel?.text = locolisedString // TODO: количество отзывов не совпадает с count в json
+            cell.textLabel?.text = reviewsCountString // TODO: количество отзывов не совпадает с count в json
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
             cell.textLabel?.textColor = .gray

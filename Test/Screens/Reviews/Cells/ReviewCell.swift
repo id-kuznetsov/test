@@ -39,7 +39,7 @@ extension ReviewCellConfig: TableCellConfig {
         guard let cell = cell as? ReviewCell else { return }
         
         if let avatarUrl = URL(string: avatarUrl) {
-            ImageProvider.shared.loadImage(from: avatarUrl, targetSize: CGSize(width: 55.0, height: 66.0)) { image in
+            ImageProvider.shared.loadImage(from: avatarUrl, targetSize: CGSize(width: 36.0, height: 36.0)) { image in
                     cell.avatarView.image = image ?? UIImage(named: "avatarPlaceholder")
             }
         }

@@ -17,14 +17,18 @@ final class ImageProvider {
     private init() {}
 
     func loadImage(from url: URL, targetSize: CGSize, completion: @escaping (UIImage?) -> Void) {
+
         if let cachedImage = cache.value(forKey: url) {
-            completion(cachedImage)
+            DispatchQueue.main.async {
+                completion(cachedImage)
+            }
             return
         }
-
+        
         queue.async { [weak self] in
+            
             guard let self else { return }
-
+            
             let imageTask = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
                 guard let self, let data, error == nil,
                       let downsampledImage = self.downsample(data: data, to: targetSize) else {
