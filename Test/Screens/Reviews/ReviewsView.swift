@@ -14,10 +14,9 @@ final class ReviewsView: UIView {
         )
     )
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
+    private lazy var activityIndicator: LoadingView = {
+        let indicator = LoadingView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
         return indicator
     }()
     
@@ -46,12 +45,12 @@ final class ReviewsView: UIView {
     }
     
     func startLoading() {
-        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
         tableView.isHidden = true
     }
 
     func stopLoading() {
-        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
         tableView.isHidden = false
     }
 

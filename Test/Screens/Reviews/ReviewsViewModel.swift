@@ -120,10 +120,13 @@ extension ReviewsViewModel: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let config = state.items[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: config.reuseId, for: indexPath)
-            config.update(cell: cell)
-            return cell
+        guard indexPath.row < state.items.count else {
+            return UITableViewCell()
+        }
+        let config = state.items[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: config.reuseId, for: indexPath)
+        config.update(cell: cell)
+        return cell
     }
     
 }
@@ -133,7 +136,11 @@ extension ReviewsViewModel: UITableViewDataSource {
 extension ReviewsViewModel: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            state.items[indexPath.row].height(with: tableView.bounds.size)
+        print(indexPath.row)
+        guard indexPath.row < state.items.count else {
+            return 0
+        }
+        return state.items[indexPath.row].height(with: tableView.bounds.size)
     }
     
     /// Метод дозапрашивает отзывы, если до конца списка отзывов осталось два с половиной экрана по высоте.

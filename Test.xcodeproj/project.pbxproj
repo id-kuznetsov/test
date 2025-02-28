@@ -34,6 +34,7 @@
 		5CDC78EE2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */; };
 		5CDC79272D70800900EAA1F0 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC79262D70800900EAA1F0 /* PhotoCell.swift */; };
 		5CDC792B2D71CFE000EAA1F0 /* ReviewsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC792A2D71CFE000EAA1F0 /* ReviewsFooterView.swift */; };
+		5CDC792D2D72295000EAA1F0 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC792C2D72295000EAA1F0 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		5CDC78ED2D6FB30900EAA1F0 /* ReviewPhotosCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPhotosCollectionView.swift; sourceTree = "<group>"; };
 		5CDC79262D70800900EAA1F0 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		5CDC792A2D71CFE000EAA1F0 /* ReviewsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFooterView.swift; sourceTree = "<group>"; };
+		5CDC792C2D72295000EAA1F0 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				5CDC78432D6D049B00EAA1F0 /* SnakeCaseJSONDecoder.swift */,
+				5CDC792C2D72295000EAA1F0 /* LoadingView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				21B8416B2D47BFA10085DAA2 /* Reviews.swift in Sources */,
 				21B82E302D47B0640085DAA2 /* ReviewsViewController.swift in Sources */,
 				2166A0F42D4A5B25009AAA76 /* ReviewsView.swift in Sources */,
+				5CDC792D2D72295000EAA1F0 /* LoadingView.swift in Sources */,
 				216668732D48E89A009AAA76 /* Colors.swift in Sources */,
 				21B841712D47C5F00085DAA2 /* TableCellConfig.swift in Sources */,
 				21ED1F652D69D0340012D6F6 /* ReviewsScreenFactory.swift in Sources */,
