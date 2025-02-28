@@ -136,7 +136,6 @@ extension ReviewsViewModel: UITableViewDataSource {
 extension ReviewsViewModel: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        print(indexPath.row)
         guard indexPath.row < state.items.count else {
             return 0
         }

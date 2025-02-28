@@ -65,6 +65,6 @@ extension ReviewPhotosCollectionView: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("selected item at indexPath: \(indexPath.item)")
+        // TODO: move to photo full screen
     }
 }

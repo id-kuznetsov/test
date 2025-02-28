@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadingView: UIView {
+final class LoadingView: UIView {
     
     private let dotCount = 7
     private let dotColor = UIColor.systemBlue.cgColor
