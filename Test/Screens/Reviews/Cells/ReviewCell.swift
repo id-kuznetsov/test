@@ -23,6 +23,8 @@ struct ReviewCellConfig {
     let created: NSAttributedString
     /// Замыкание, вызываемое при нажатии на кнопку "Показать полностью...".
     let onTapShowMore: (UUID) -> Void
+    /// Замыкание, вызываемое при нажатии на фото.
+    let onTapPhoto: (Int) -> Void
     
     /// Объект, хранящий посчитанные фреймы для ячейки отзыва.
     fileprivate let layout = ReviewCellLayout()
@@ -117,6 +119,12 @@ final class ReviewCell: UITableViewCell {
     
 }
 
+extension ReviewCell: ReviewPhotosCollectionViewDelegate {
+    func didSelectPhoto(at indexPath: IndexPath) {
+        config?.onTapPhoto(indexPath.item)
+    }
+}
+
 // MARK: - Private
 
 private extension ReviewCell {
@@ -149,6 +157,7 @@ private extension ReviewCell {
     
     func setupCollectionView() {
         contentView.addSubview(photosCollectionView)
+        photosCollectionView.photosDelegate = self
     }
     
     func setupReviewTextLabel() {

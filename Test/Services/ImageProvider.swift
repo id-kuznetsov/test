@@ -46,6 +46,35 @@ final class ImageProvider {
             imageTask.resume()
         }
     }
+    
+    func loadFullImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+
+        if let cachedImage = cache.value(forKey: url) {
+            DispatchQueue.main.async {
+                completion(cachedImage)
+            }
+            return
+        }
+        
+        queue.async { [weak self] in
+            guard let self else { return }
+            
+            let imageTask = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+                guard let self, let data, error == nil,
+                      let image = UIImage(data: data) else {
+                    DispatchQueue.main.async { completion(nil) }
+                    return
+                }
+
+                self.cache.insert(image, forKey: url)
+
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            }
+            imageTask.resume()
+        }
+    }
 
     private func downsample(data: Data, to pointSize: CGSize, scale: CGFloat = UIScreen.main.scale) -> UIImage? {
         let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary

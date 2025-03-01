@@ -8,7 +8,7 @@
 import UIKit
 
 final class SinglePhotoViewController: UIViewController {
-
+    
     // MARK: - Public Properties
     
     var viewModel: SinglePhotoViewModelProtocol
@@ -42,8 +42,8 @@ final class SinglePhotoViewController: UIViewController {
         scrollView.delegate = self
         
         scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 3
         scrollView.showsVerticalScrollIndicator = true
         scrollView.showsHorizontalScrollIndicator = true
         scrollView.isScrollEnabled = true
@@ -66,7 +66,7 @@ final class SinglePhotoViewController: UIViewController {
             target: self,
             action: #selector(didTapBackButton)
         )
-        button.tintColor = .white
+        button.tintColor = .systemBlue
         button.accessibilityIdentifier = "Back button"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -105,8 +105,6 @@ final class SinglePhotoViewController: UIViewController {
         imageView.frame.size = photo.size
         
         rescaleAndCenterImageInScrollView(photo: photo)
-
-        
     }
     
     // MARK: - Actions
@@ -125,25 +123,16 @@ final class SinglePhotoViewController: UIViewController {
     // MARK: - Public Methods
     
     func setPhotoFromURL(
-        fullImageURL: URL
+        fullImageStringURL: String
     ) {
-        imageProvider.loadImage(
-            from: fullImageURL,
-            targetSize: CGSize(
-                width: view.frame.width,
-                height: view.frame.height
-            )
-        ) { [weak self] image in
-            self?.photo = image
-            self?.activityIndicator.isHidden = true
-            
-        }
+        guard let url = URL(string: fullImageStringURL) else { return }
+        viewModel.loadPhoto(from: url)
     }
     
     // MARK: - Private Methods
     
     private func setSinglePhotoView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
         view.addSubview(activityIndicator)
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
@@ -156,6 +145,15 @@ final class SinglePhotoViewController: UIViewController {
             scrollViewConstraints() +
             activityIndicatorConstraints()
         )
+        
+        viewModel.onPhotoLoaded = { [weak self] image in
+            guard let self = self, let image else { return }
+            
+            DispatchQueue.main.async {
+                self.photo = image
+                self.activityIndicator.isHidden = true
+            }
+        }
     }
     
     // MARK: - Constraints
@@ -240,6 +238,3 @@ extension SinglePhotoViewController: UIScrollViewDelegate {
         centerImage()
     }
 }
-
-
-

@@ -7,7 +7,16 @@
 
 import UIKit
 
+///Делегат для показа одиночного изображения
+protocol ReviewPhotosCollectionViewDelegate: AnyObject {
+    func didSelectPhoto(at indexPath: IndexPath)
+}
+
 final class ReviewPhotosCollectionView: UICollectionView {
+    
+    // MARK: - Public Properties
+    
+    weak var photosDelegate: ReviewPhotosCollectionViewDelegate?
     
     // MARK: - Private Properties
     
@@ -65,6 +74,6 @@ extension ReviewPhotosCollectionView: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: move to photo full screen
+        photosDelegate?.didSelectPhoto(at: indexPath)
     }
 }

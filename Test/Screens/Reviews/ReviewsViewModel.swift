@@ -5,6 +5,8 @@ final class ReviewsViewModel: NSObject {
     
     /// Замыкание, вызываемое при изменении `state`.
     var onStateChange: ((State) -> Void)?
+    /// Замыкание для показа фото в полноэкранном режиме.
+    var onShowPhotoFullscreen: ((Int, [String]) -> Void)?
     
     private var state: State
     private let reviewsProvider: ReviewsProvider
@@ -82,7 +84,16 @@ private extension ReviewsViewModel {
         state.items[index] = item
         onStateChange?(state)
     }
-
+    
+    func showPhotoFullscreen(with index: Int, photoUrls: [String]) {
+        onShowPhotoFullscreen?(index, photoUrls)
+    }
+    
+    func makeOnTapPhoto(for photoUrls: [String]) -> (Int) -> Void {
+        return { [weak self] index in
+            self?.showPhotoFullscreen(with: index, photoUrls: photoUrls)
+        }
+    }
 }
 
 // MARK: - Items
@@ -104,7 +115,8 @@ private extension ReviewsViewModel {
             photoUrls: review.photosUrls,
             reviewText: reviewText,
             created: created,
-            onTapShowMore: showMoreReview
+            onTapShowMore: showMoreReview,
+            onTapPhoto: makeOnTapPhoto(for: review.photosUrls ?? [])
         )
         return item
         

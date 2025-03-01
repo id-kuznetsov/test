@@ -58,6 +58,16 @@ private extension ReviewsViewController {
             self.reviewsView.refreshControl.endRefreshing()
             self.reviewsView.reviewsFooter.updateText(reviewsCount: newState.items.count)
         }
+        
+        viewModel.onShowPhotoFullscreen = { [weak self] index, photoUrls in
+            guard index < photoUrls.count else { return }
+            let photoUrl = photoUrls[index]
+            let viewModel = SinglePhotoViewModel(imageProvider: ImageProvider.shared)
+            let singlePhotoViewer = SinglePhotoViewController(viewModel: viewModel)
+            singlePhotoViewer.setPhotoFromURL(fullImageStringURL: photoUrl)
+            singlePhotoViewer.modalPresentationStyle = .fullScreen
+            self?.present(singlePhotoViewer, animated: true)
+        }
     }
     
     private func setupRefreshControl() {
