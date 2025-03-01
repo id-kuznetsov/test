@@ -11,7 +11,7 @@ final class ReviewsFooterView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
+        label.textColor = .reviewCount
         label.font = .reviewCount
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
